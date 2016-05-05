@@ -1,3 +1,13 @@
+// 1_robot.ino
+//
+// Example robotics code fro CODE @ TACC
+// Summer 2016 robotics curriculum, available at:
+//
+// https://github.com/CODE-at-TACC/summer-2016
+//
+// Copyright 2016, Texas Advanced Computing Center
+// GNU GPLv3 License
+
 /******************************************
 
 Included libraries
