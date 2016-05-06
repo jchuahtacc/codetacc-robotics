@@ -1,6 +1,6 @@
 {
     "name": "codetacc-robotics",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": "Joon-Yee Chuah <jchuah@tacc.utexas.edu>",
     "license": "GNU GPLv3, BSD License for derivative works",
     "description": "This library is designed to be used in the CODE @ TACC Summer 2016 Robotics curriculum, and wraps/provides compatibility for several Adafruit sensor libraries"
