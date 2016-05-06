@@ -23,7 +23,7 @@
 #else
   #include <Wire.h>
 #endif
-#include "Adafruit_MS_PWMServoDriver.h"
+#include "./Adafruit_MS_PWMServoDriver.h"
 
 //#define MOTORDEBUG
 
