@@ -15,7 +15,7 @@
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-#include <Adafruit_MS_PWMServoDriver.h>
+#include "Adafruit_MS_PWMServoDriver.h"
 
 #if defined(SPARK)
   #include "application.h"

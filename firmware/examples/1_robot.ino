@@ -13,7 +13,7 @@
 Included libraries
 
 ******************************************/
-#include <codetacc-robotics.h>
+#include "codetacc-robotics/codetacc-robotics.h"
 
 /******************************************
 
