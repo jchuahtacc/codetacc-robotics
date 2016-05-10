@@ -1,4 +1,4 @@
-// 1_robot.ino
+// 5_states.ino
 //
 // Example robotics code for CODE @ TACC
 // Summer 2016 robotics curriculum, available at:
@@ -21,9 +21,29 @@ Variables
 
 ******************************************/
 
+UltrasonicSensor ultrasonic = UltrasonicSensor(2, 4);
+double distance = 0;
+
 Adafruit_MotorShield shield = Adafruit_MotorShield();
 Adafruit_DCMotor *leftMotor = shield.getMotor(1);
 Adafruit_DCMotor *rightMotor = shield.getMotor(2);
+
+void *state;
+String stateName = "none";
+
+/******************************************
+
+Function prototypes;
+
+******************************************/
+
+int forward(String);
+int left(String);
+int right(String);
+int stop(String);
+
+void waiting();
+void driving();
 
 /******************************************
 
@@ -55,6 +75,18 @@ int stop(String params = "") {
   return 1;
 }
 
+void waiting() {
+  stateName = "waiting";
+  distance = ultrasonic.readCm();
+  if (distance > 15 && distance <= 50) {
+    state = driving;
+  }
+}
+
+void driving() {
+  stateName = "driving";
+  forward();
+}
 
 /******************************************
 void setup()
@@ -63,9 +95,9 @@ Runs once upon startup
 ******************************************/
 
 void setup() {
-  shield.begin();
-  leftMotor->setSpeed(150);
-  rightMotor->setSpeed(150);
+  ultrasonic.begin();
+  state = waiting;
+  Particle.variable("stateName", stateName);
 }
 
 /******************************************
@@ -75,12 +107,6 @@ Runs forever
 ******************************************/
 
 void loop() {
-  forward();
-  delay(1000);
-  stop();
-  delay(1000);
-  left();
-  delay(1000);
-  right();
+  state();
   delay(1000);
 }

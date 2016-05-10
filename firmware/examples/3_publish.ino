@@ -1,4 +1,4 @@
-// 1_robot.ino
+// 3_publish.ino
 //
 // Example robotics code for CODE @ TACC
 // Summer 2016 robotics curriculum, available at:
@@ -21,39 +21,14 @@ Variables
 
 ******************************************/
 
-Adafruit_MotorShield shield = Adafruit_MotorShield();
-Adafruit_DCMotor *leftMotor = shield.getMotor(1);
-Adafruit_DCMotor *rightMotor = shield.getMotor(2);
+Adafruit_TMP007 thermopile = Adafruit_TMP007();
+double temperature = 0;
 
 /******************************************
 
 Custom functions
 
 ******************************************/
-
-int forward(String params = "") {
-  leftMotor->run(FORWARD);
-  rightMotor->run(FORWARD);
-  return 1;
-}
-
-int left(String params = "") {
-  leftMotor->run(BACKWARD);
-  rightMotor->run(FORWARD);
-  return 1;
-}
-
-int right(String params = "") {
-  leftMotor->run(FORWARD);
-  rightMotor->run(BACKWARD);
-  return 1;
-}
-
-int stop(String params = "") {
-  leftMotor->run(RELEASE);
-  rightMotor->run(RELEASE);
-  return 1;
-}
 
 
 /******************************************
@@ -63,9 +38,9 @@ Runs once upon startup
 ******************************************/
 
 void setup() {
-  shield.begin();
-  leftMotor->setSpeed(150);
-  rightMotor->setSpeed(150);
+  thermopile.begin();
+  Particle.variable("temperature", temperature);
+  Particle.publish("hello");
 }
 
 /******************************************
@@ -75,12 +50,6 @@ Runs forever
 ******************************************/
 
 void loop() {
-  forward();
-  delay(1000);
-  stop();
-  delay(1000);
-  left();
-  delay(1000);
-  right();
+  temperature = thermopile.readObjTempC();
   delay(1000);
 }
