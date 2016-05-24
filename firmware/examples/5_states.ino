@@ -21,15 +21,16 @@ Variables
 
 ******************************************/
 
-UltrasonicSensor ultrasonic = UltrasonicSensor(2, 4);
+//UltrasonicSensor ultrasonic = UltrasonicSensor(2, 4);
 double distance = 0;
 
 Adafruit_MotorShield shield = Adafruit_MotorShield();
 Adafruit_DCMotor *leftMotor = shield.getMotor(1);
 Adafruit_DCMotor *rightMotor = shield.getMotor(2);
 
-void *state;
-String stateName = "none";
+UltrasonicSensor ultrasonic = UltrasonicSensor(2, 4);
+
+void (*state)();
 
 /******************************************
 
@@ -75,17 +76,28 @@ int stop(String params = "") {
   return 1;
 }
 
+/******************************************
+
+State functions
+
+******************************************/
+
 void waiting() {
-  stateName = "waiting";
+  stop();
   distance = ultrasonic.readCm();
-  if (distance > 15 && distance <= 50) {
+  if (distance > 150) {
     state = driving;
+    Particle.publish("state", "driving");
   }
 }
 
 void driving() {
-  stateName = "driving";
   forward();
+  distance = ultrasonic.readCm();
+  if (distance < 50) {
+      state = waiting;
+      Particle.publish("state", "waiting");
+  }
 }
 
 /******************************************
@@ -95,9 +107,14 @@ Runs once upon startup
 ******************************************/
 
 void setup() {
-  ultrasonic.begin();
+  shield.begin();
+  leftMotor->setSpeed(150);
+  rightMotor->setSpeed(150);
+
+  Particle.variable("distance", distance);
+
   state = waiting;
-  Particle.variable("stateName", stateName);
+  Particle.publish("state", "waiting");
 }
 
 /******************************************
@@ -108,5 +125,4 @@ Runs forever
 
 void loop() {
   state();
-  delay(1000);
 }
