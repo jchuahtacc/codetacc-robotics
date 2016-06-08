@@ -83,7 +83,7 @@ void setup() {
   leftMotor->setSpeed(150);
   rightMotor->setSpeed(150);
 
-  myServo.attach(9);
+  myServo.attach(3);
 
   myServo.write(90);
 }
@@ -95,11 +95,13 @@ Runs forever
 ******************************************/
 
 void loop() {
-  for (int position = 0; position < 180; position += 15) {
+  for (int position = 0; position < 180; position++) {
     myServo.write(position);
+    delay(5);
   }
 
-  for (int position = 180; position > 0; position -= 15) {
+  for (int position = 180; position > 0; position--) {
     myServo.write(position);
+    delay(5);
   }
 }
