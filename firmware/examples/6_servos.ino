@@ -21,15 +21,11 @@ Variables
 
 ******************************************/
 
-double distance = 0;
+Servo myServo;
 
 Adafruit_MotorShield shield = Adafruit_MotorShield();
 Adafruit_DCMotor *leftMotor = shield.getMotor(1);
 Adafruit_DCMotor *rightMotor = shield.getMotor(2);
-
-UltrasonicSensor ultrasonic = UltrasonicSensor(2, 4);
-
-void (*state)();
 
 /******************************************
 
@@ -75,29 +71,6 @@ int stop(String params = "") {
   return 1;
 }
 
-/******************************************
-
-State functions
-
-******************************************/
-
-void waiting() {
-  stop();
-  distance = ultrasonic.readCm();
-  if (distance > 150) {
-    state = driving;
-    Particle.publish("state", "driving");
-  }
-}
-
-void driving() {
-  forward();
-  distance = ultrasonic.readCm();
-  if (distance < 50) {
-      state = waiting;
-      Particle.publish("state", "waiting");
-  }
-}
 
 /******************************************
 void setup()
@@ -110,10 +83,9 @@ void setup() {
   leftMotor->setSpeed(150);
   rightMotor->setSpeed(150);
 
-  Particle.variable("distance", distance);
+  myServo.attach(9);
 
-  state = waiting;
-  Particle.publish("state", "waiting");
+  myServo.write(90);
 }
 
 /******************************************
@@ -123,5 +95,11 @@ Runs forever
 ******************************************/
 
 void loop() {
-  state();
+  for (int position = 0; position < 180; position += 15) {
+    myServo.write(position);
+  }
+
+  for (int position = 180; position > 0; position -= 15) {
+    myServo.write(position);
+  }
 }
