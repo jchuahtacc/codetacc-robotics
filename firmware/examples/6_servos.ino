@@ -143,8 +143,8 @@ void setup() {
   rightMotor->setSpeed(150);
 
   thermopile.begin();
-  Particle.variable("hottestTemp", hottestTemp);
-  Particle.variable("hottestPosition", hottestPosition);
+  Particle.variable("hottest", hottestTemp);
+  Particle.variable("position", hottestPosition);
 
   myServo.attach(3);
   myServo.write(90);
