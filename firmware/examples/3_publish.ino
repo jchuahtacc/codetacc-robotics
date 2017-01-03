@@ -21,8 +21,8 @@ Variables
 
 ******************************************/
 
-Adafruit_TMP007 thermopile = Adafruit_TMP007();
-double temperature = 0;
+UltrasonicSensor ultrasonic = Ultrasonic(2, 4);
+double distance = 0;
 
 /******************************************
 
@@ -38,8 +38,7 @@ Runs once upon startup
 ******************************************/
 
 void setup() {
-  thermopile.begin();
-  Particle.variable("temperature", temperature);
+  Particle.variable("distance", distance);
   Particle.publish("hello");
 }
 
@@ -50,6 +49,10 @@ Runs forever
 ******************************************/
 
 void loop() {
-  temperature = thermopile.readObjTempC();
+  distance = ultrasonic.readCm();
+  // Add "if" code here
+
+
+  //
   delay(1000);
 }
