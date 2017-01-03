@@ -21,7 +21,7 @@ Variables
 
 ******************************************/
 
-UltrasonicSensor ultrasonic = Ultrasonic(2, 4);
+UltrasonicSensor ultrasonic = UltrasonicSensor(2, 4);
 double distance = 0;
 
 /******************************************
