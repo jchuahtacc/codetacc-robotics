@@ -38,7 +38,6 @@ Runs once upon startup
 ******************************************/
 
 void setup() {
-  thermopile.begin();
   Particle.variable("distance", distance);
 }
 
